@@ -1,0 +1,23 @@
+"use strict";
+
+exports.__esModule = true;
+exports.default = void 0;
+var _react = _interopRequireDefault(require("react"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+const MoreOutlined = _ref => {
+  let {
+    color
+  } = _ref;
+  return /*#__PURE__*/_react.default.createElement("svg", {
+    width: "4",
+    height: "12",
+    viewBox: "0 0 4 12",
+    fill: "currentColor",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M1.99935 3.33366C2.73268 3.33366 3.33268 2.73366 3.33268 2.00033C3.33268 1.26699 2.73268 0.666992 1.99935 0.666992C1.26602 0.666992 0.666016 1.26699 0.666016 2.00033C0.666016 2.73366 1.26602 3.33366 1.99935 3.33366ZM1.99935 4.66699C1.26602 4.66699 0.666016 5.26699 0.666016 6.00033C0.666016 6.73366 1.26602 7.33366 1.99935 7.33366C2.73268 7.33366 3.33268 6.73366 3.33268 6.00033C3.33268 5.26699 2.73268 4.66699 1.99935 4.66699ZM1.99935 8.66699C1.26602 8.66699 0.666016 9.26699 0.666016 10.0003C0.666016 10.7337 1.26602 11.3337 1.99935 11.3337C2.73268 11.3337 3.33268 10.7337 3.33268 10.0003C3.33268 9.26699 2.73268 8.66699 1.99935 8.66699Z",
+    fill: color
+  }));
+};
+var _default = exports.default = MoreOutlined;
+//# sourceMappingURL=MoreOutlined.js.map

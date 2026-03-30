@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["default","MasterData"],"sources":["../../../../src/modules/CarrierAllocationMasterData/index.js"],"sourcesContent":["export { default as MasterData } from './MasterData'\nexport * from './MasterDataTab'"],"mappings":"AAAA,SAASA,OAAO,IAAIC,UAAU,QAAQ,cAAc;AACpD,cAAc,iBAAiB","ignoreList":[]}

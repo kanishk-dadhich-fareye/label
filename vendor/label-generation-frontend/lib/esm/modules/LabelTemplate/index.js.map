@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["default","LabelTemplate"],"sources":["../../../../src/modules/LabelTemplate/index.js"],"sourcesContent":["export { default as LabelTemplate } from './LabelTemplate'"],"mappings":"AAAA,SAASA,OAAO,IAAIC,aAAa,QAAQ,iBAAiB","ignoreList":[]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["formStore"],"sources":["../../src/index.js"],"sourcesContent":["import formStore from './modules/hook-store/form-store';\n\nformStore();\n\nexport * from './modules'\n"],"mappings":"AAAA,OAAOA,SAAS,MAAM,iCAAiC;AAEvDA,SAAS,CAAC,CAAC;AAEX,cAAc,WAAW","ignoreList":[]}

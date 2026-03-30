@@ -1,0 +1,85 @@
+#carrier-alloc-card.ant-card {
+    margin: 16px;
+    border: 0.5px solid #DDDDDD;
+    box-sizing: border-box;
+    border-radius: 4px;
+    height: 40px;
+}
+
+#carrier-alloc-card .ant-card-body {
+    padding: 9px 16px;
+    height: 40px;
+}
+
+#switch-config-container {
+    float: right;
+    display: flex;
+}
+
+.master-data-modal {
+    border: 1px solid #C6C6C6;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.master-data-modal .ant-modal-close {
+    position: static !important;
+    float: right;
+}
+
+.master-data-modal .ant-modal-header {
+    padding-left: 24px !important;
+}
+
+.master-data-modal .ant-modal-title {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.master-data-modal .ant-card-bordered {
+    border: 0 !important;
+}
+
+.master-data-modal .ant-card-head {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 0 !important;
+    min-height: auto;
+}
+
+.master-data-modal .ant-card-head-title {
+    padding: 0 0 6px;
+}
+
+.master-data-modal .ant-row::before, .master-data-modal .ant-row::after {
+    content: none !important;
+}
+
+.master-data-modal .ant-modal-footer {
+    border: 0;
+    padding: 0 24px 24px;
+}
+
+.master-data-modal .ant-input, .master-data-modal .ant-select-selector {
+    border: 1px solid #DADADA;
+    box-sizing: border-box;
+    border-radius: 4px !important;
+}
+
+.master-data-modal .ant-modal-footer .ant-btn {
+    color: #FFFFFF;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.master-data-modal .ant-modal-footer .ant-btn:not(.ant-modal-footer .ant-btn-primary) {
+    color: #727272;
+    border: 0;
+}

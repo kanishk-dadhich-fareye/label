@@ -1,0 +1,12 @@
+"use strict";
+
+exports.__esModule = true;
+exports.default = void 0;
+var _styledComponents = require("styled-components");
+var _templateObject;
+function _taggedTemplateLiteralLoose(e, t) { return t || (t = e.slice(0)), e.raw = t, e; }
+const awbGenerationFormModalStyle = "\n.awb-gen-form-modal {\n    border: 1px solid #C6C6C6;\n    box-sizing: border-box;\n    border-radius: 4px;\n}\n\n.awb-gen-form-modal .ant-modal-close {\n    right: 0 !important;\n    left: unset !important;\n}\n\n.awb-gen-form-modal .form-element-container {\n    max-height: 464px;\n    overflow: auto;\n    margin-top: 16px;\n}\n\n.form-element-container::-webkit-scrollbar {\n    width: 0px;\n}\n\n.awb-gen-form-modal .ant-card-head-title {\n    padding: 0 0 6px;\n    font-family: Roboto;\n    font-style: normal;\n    font-weight: 500;\n    font-size: 14px;\n    line-height: 22px;\n}\n\n.awb-gen-form-modal .ant-row:not(:last-child) {\n    margin-bottom: 16px;\n}\n\n.awb-gen-form-modal .ant-card-body {\n    padding: 16px 0 24px;\n}\n\n.form-element-container>.ant-card:last-child .ant-card-body {\n    padding-bottom: 0;\n}\n\n.awb-gen-form-modal .ant-col {\n    align-self: center;\n}\n\n.awb-gen-form-modal .default-awb-info {\n    background: #FFFBE6;\n    border: 1px solid #FFE58F;\n    box-sizing: border-box;\n    height: 36px;\n    border-radius: 2px;\n    color: #212121;\n}\n\n.awb-gen-form-modal .ant-input .ant-select-selector {\n    border: 1px solid #C9C9C9 !important;\n    box-sizing: border-box;\n    border-radius: 2px !important;\n}\n\n.awb-gen-form-modal .ant-modal-footer {\n    border: 0;\n    padding: 24px 0px 24px 24px;\n}\n\n.awb-gen-form-modal .ant-modal-footer .ant-btn {\n    color: #FFFFFF;\n    font-family: Roboto;\n    font-style: normal;\n    font-weight: 500;\n    font-size: 14px;\n    line-height: 22px;\n}\n\n.awb-gen-form-modal .ant-modal-footer .ant-btn:not(.ant-modal-footer .ant-btn-primary) {\n    color: #727272;\n    border: 0;\n}\n\n.awb-gen-form-modal .ant-form-item-explain-error {\n    color: #C84031;\n    font-family: 'Roboto';\n    font-style: normal;\n    font-weight: 400;\n    font-size: 12px;\n    line-height: 18px;\n}\n";
+let modifiedCss = awbGenerationFormModalStyle;
+const GlobalStyles = (0, _styledComponents.createGlobalStyle)(_templateObject || (_templateObject = _taggedTemplateLiteralLoose(["", ""])), modifiedCss);
+var _default = exports.default = GlobalStyles;
+//# sourceMappingURL=AWBGenerationFormModalStyle.js.map

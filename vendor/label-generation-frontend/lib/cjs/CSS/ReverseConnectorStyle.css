@@ -1,0 +1,15 @@
+#reverse-connector-card.ant-card {
+    margin: 16px;
+    border: 1px solid #DDDDDD;
+    box-sizing: border-box;
+}
+
+#reverse-connector-card .ant-card-body {
+    padding: 24px;
+}
+
+#reverse-connector-card .ant-select-selector {
+    border: 1px solid #DADADA;
+    box-sizing: border-box;
+    border-radius: 4px !important;
+}

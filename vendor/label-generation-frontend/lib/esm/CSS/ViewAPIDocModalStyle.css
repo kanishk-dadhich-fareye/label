@@ -1,0 +1,61 @@
+.master-data-modal-api-doc{
+    width: 650px;
+}
+
+.master-data-modal-api-doc .ant-modal-close {
+    position: static !important;
+    float: right;
+}
+
+.master-data-modal-api-doc .ant-modal-header {
+    padding: 16px 24px 0px !important;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #212121;
+}
+
+.api-doc-modal-header-title{
+    display: flex;
+    justify-content: space-between;
+}
+
+.api-doc-modal-header-title .ant-avatar.ant-avatar-square.ant-avatar-image{
+    height: auto;
+}
+
+.api-doc-modal-header-title .ant-avatar.ant-avatar-square.ant-avatar-image img{
+    width: auto;
+    cursor: pointer;
+}
+
+.master-data-modal-api-doc .ant-modal-body {
+    padding-top: 16px;
+}
+
+.master-data-modal-api-doc .api-doc-container {
+    display: flex;
+}
+
+.master-data-modal-api-doc .api-doc-container .api-doc-list-number {
+    display: flex;
+    flex-direction: column;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #ADADAD;
+}
+
+#APIDocContent {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #212121;
+    margin: 0 0 0 16px;
+}
