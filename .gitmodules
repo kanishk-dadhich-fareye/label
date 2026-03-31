@@ -1,0 +1,3 @@
+[submodule "custom-zpl-viewer"]
+	path = custom-zpl-viewer
+	url = file:///home/kanishk/Custom-ZPL-Viewer
