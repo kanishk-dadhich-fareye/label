@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["default","BulkUploadAddShipment"],"sources":["../../../../src/modules/BulkUploadAddShipment/index.js"],"sourcesContent":["export { default as BulkUploadAddShipment } from './BulkUploadAddShipment'"],"mappings":"AAAA,SAASA,OAAO,IAAIC,qBAAqB,QAAQ,yBAAyB","ignoreList":[]}

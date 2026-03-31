@@ -1,0 +1,286 @@
+#master_data_tab_card.ant-card-bordered {
+    border: 1px solid #DADADA !important;
+    border-radius: 4px !important;
+}
+
+#master_data_tab_card .ant-tabs-nav-list:not(#master_card_left_tab .ant-tabs-nav-list) {
+    height: 43px;
+}
+
+#master_data_tab_card .ant-tabs-tab {
+    top: 16.5%;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 22px;
+    font-family: Roboto;
+    Display: flex !important;
+    text-align: center;
+    flex: none;
+    height: 22px !important;
+    flex-grow: 0;
+    margin: 0px 16px !important;
+}
+
+.ant-tabs-tab .ant-tabs-tab-btn {
+    color: #727272;
+}
+
+#master_data_tab_card.ant-card {
+    margin: 13px;
+}
+
+#master_data_tab_card .ant-tabs-tab.ant-tabs-tab-active:not(#master_card_left_tab .ant-tabs-tab.ant-tabs-tab-active) {
+    border-bottom: 2px solid;
+    padding: 16px 0 17px;
+}
+
+#master_card_left_tab .ant-tabs-tab {
+    margin: 0 !important;
+    height: 40px !important;
+    width: 180px;
+    padding: 11px 14px;
+    box-shadow: 0px 1px 0px #dadada;
+    border-bottom: 0;
+}
+
+#master_card_left_tab .ant-tabs-nav-wrap {
+    display: inline-block;
+}
+
+#master_card_left_tab .ant-tabs-tab.ant-tabs-tab-active {
+    border-left: 2px solid;
+    border-top: 1px solid #dadada;
+    background: #F5FBFF;
+}
+
+#master_card_left_tab .ant-tabs-nav {
+    height: 502px;
+    border-right: 1px solid #dadada;
+}
+
+#master_card_left_tab .ant-tabs-tabpane {
+    padding-left: 1rem;
+}
+
+#master_card_left_tab .ant-table-wrapper {
+    margin-right: 1rem;
+}
+
+#master_card_left_tab button {
+    font-weight: 500;
+}
+
+.fs10 {
+    font-size: 10px !important;
+}
+
+.lh18 {
+    line-height: 18px;
+}
+
+.font-family-weight-500 {
+    font-family: Roboto !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+}
+
+.font-family-weight-normal {
+    font-family: Roboto !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+}
+
+.fs14 {
+    font-size: 14px !important;
+}
+
+.lh22 {
+    line-height: 22px;
+}
+
+.text-upper { text-transform: uppercase; }
+
+#master_card_left_tab tr[aria-hidden|=true] {
+    display: none;
+}
+
+#master_card_left_tab .ant-table-tbody .ant-table-cell {
+    padding: 7px 12px !important;
+}
+
+#master_card_left_tab .ant-table-thead tr {
+    height: 36px;
+}
+
+#master_card_left_tab .ant-table-thead .ant-table-cell {
+    padding: 9px 12px !important;
+    border: 1px solid #EEF6FF;
+}
+
+.ant-popover.ant-popover-placement-bottomLeft {
+    padding: 0px;
+}
+
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-arrow {
+    display: none;
+}
+
+#master-data-table-popover .ant-popover-inner-content {
+    width: 101px;
+    height: 64px;
+    --a: 0, 0, 0;
+    box-shadow: 0px 3px 6px -4px rgba(var(--a), .12), 0px 6px 16px rgba(var(--a), .08), 0px 9px 28px 8px rgba(var(--a), .05);
+    border-radius: 2px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    color: #212121;
+}
+
+#popover-content {
+    margin-bottom: 6px !important;
+    cursor: pointer;
+}
+
+.master-data-add-modal {
+    width: 802px !important;
+}
+
+.master-data-add-modal .ant-modal-content, .master-data-add-modal .ant-modal-header {
+    border-radius: 6px;
+}
+
+.master-data-add-modal .ant-modal-close {
+    position: static !important;
+    float: right;
+}
+
+.master-data-add-modal .ant-modal-header {
+    padding-left: 24px !important;
+}
+
+.master-data-add-modal .ant-modal-title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    color: #212121;
+}
+
+.master-data-add-modal .ant-modal-body {
+    padding: 26px 24px 24px;
+}
+
+.master-data-add-modal .ant-card-body {
+    padding: 16px !important;
+    cursor: pointer;
+}
+
+#add-modal-excel-card {
+    margin-right: 12px;
+}
+
+#add-modal-excel-card .ant-card-body {
+    padding: 0 !important;
+}
+
+#add-modal-excel-card, #add-modal-excel-card .ant-upload.ant-upload-drag {
+    border: 0;
+}
+
+#add-modal-excel-card .ant-upload.ant-upload-btn {
+    background: #FFFFFF;
+    padding: 16px !important;
+    border-radius: 6px;
+    border: 1px solid #DEDFEA;
+}
+
+#add-modal-excel-card .ant-card-meta {
+    text-align: initial;
+}
+
+#add-modal-form-card {
+    margin-left: 12px;
+}
+
+#add-modal-form-card {
+    border: 1px solid #DEDFEA;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+.master-data-add-modal .ant-card-meta-title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #353030;
+    margin-bottom: 2px !important;
+    margin-top: 4px;
+}
+
+.master-data-add-modal .ant-card-meta-description {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color: #82838E;
+}
+
+.master-data-add-modal .ant-avatar.ant-avatar-square.ant-avatar-image {
+    height: 42px;
+}
+
+#add-modal-form-card img {
+    height: 45px;
+}
+
+.master-data-add-modal .ant-card-meta-avatar {
+    padding-right: 13px;
+}
+
+.master-data-add-modal .ant-btn.ant-btn-link {
+    margin-top: 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+#master_data_tab_card .ant-table-cell-fix-left {
+    z-index: 1 !important;
+}
+
+.status-tag-inactive {
+    font-family: 'Roboto';
+    font-style: normal;
+    border: 1px solid #BFBFBF !important;
+    border-radius: 4px !important;
+    color: #727272 !important;
+    text-align: center;
+}
+
+.status-tag-active {
+    font-family: 'Roboto';
+    font-style: normal;
+    border: 1px solid rgba(39, 155, 78, 0.3) !important;
+    border-radius: 4px !important;
+    color: #279B4E !important;
+    text-align: center;
+}
+
+.ant-form-item-explain-error {
+    color: #C84031;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+}

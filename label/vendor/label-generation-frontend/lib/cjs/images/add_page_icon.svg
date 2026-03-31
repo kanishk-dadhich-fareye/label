@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="61px" height="61px" viewBox="0 0 61 61" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>A6438477-6AAA-4591-9BD5-0D6FCB0B21FD</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Add-new" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-42.000000, -99.000000)">
+        <g id="add-page-icon" transform="translate(42.000000, 99.000000)">
+            <path d="M6.5,0.350829268 L30.548,0.350829268 L48.548,18.4971707 L48.548,54.7898537 C48.548,56.4351302 47.948006,57.8384332 46.748,58.9998049 C45.547994,60.1611765 44.1320082,60.7418537 42.5,60.7418537 L6.5,60.7418537 C4.86799184,60.7418537 3.452006,60.1611765 2.252,58.9998049 C1.051994,57.8384332 0.452,56.4351302 0.452,54.7898537 L0.596,6.30282927 C0.596,4.65755275 1.17199424,3.25424971 2.324,2.09287805 C3.47600576,0.931506388 4.86799184,0.350829268 6.5,0.350829268 Z" id="" fill="#4BD964"></path>
+            <ellipse id="Oval" stroke="#4BD964" stroke-width="3" fill="#FFFFFF" cx="47" cy="45.3658537" rx="12" ry="12.097561"></ellipse>
+            <polygon id="add---material" fill="#4BD964" points="52.238 45.8038537 47.738 45.8038537 47.738 50.3038537 46.262 50.3038537 46.262 45.8038537 41.762 45.8038537 41.762 44.3278537 46.262 44.3278537 46.262 39.8278537 47.738 39.8278537 47.738 44.3278537 52.238 44.3278537"></polygon>
+        </g>
+    </g>
+</svg>

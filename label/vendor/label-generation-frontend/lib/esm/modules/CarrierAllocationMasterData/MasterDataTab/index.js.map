@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["default","MasterDataTabCard"],"sources":["../../../../../src/modules/CarrierAllocationMasterData/MasterDataTab/index.js"],"sourcesContent":["export { default as MasterDataTabCard } from './MasterDataTabCard'"],"mappings":"AAAA,SAASA,OAAO,IAAIC,iBAAiB,QAAQ,qBAAqB","ignoreList":[]}

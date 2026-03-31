@@ -1,0 +1,12 @@
+#column-boundries .ant-table-cell{    
+    border: 0.2px solid #efecec8a;
+}
+/* 
+#validation-table .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 10px 10px !important;
+    overflow-wrap: break-word;
+} */
+
+#left-table-tab .ant-table.ant-table-small{
+    border: 0 !important;
+}
