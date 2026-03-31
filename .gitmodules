@@ -1,3 +1,7 @@
 [submodule "custom-zpl-viewer"]
 	path = custom-zpl-viewer
-	url = file:///home/kanishk/Custom-ZPL-Viewer
+	url = https://github.com/kanishk-dadhich-fareye/Custom-ZPL-Viewer.git
+
+[submodule "label"]
+        path = label
+        url = https://github.com/kanishk-dadhich-fareye/label.git
