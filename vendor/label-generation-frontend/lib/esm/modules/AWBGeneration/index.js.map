@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","names":["default","AWBGenerationSettings"],"sources":["../../../../src/modules/AWBGeneration/index.js"],"sourcesContent":["export { default as AWBGenerationSettings } from './AWBGenerationSettings'"],"mappings":"AAAA,SAASA,OAAO,IAAIC,qBAAqB,QAAQ,yBAAyB","ignoreList":[]}
