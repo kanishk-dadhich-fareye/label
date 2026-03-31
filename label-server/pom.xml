@@ -24,6 +24,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>3.4.1</version>
         </dependency>
@@ -54,9 +59,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.4.1</version>
                 <configuration>
-                    <mainClass>${start-class}</mainClass>
+                    <mainClass>com.fareye.labelengine.server.LabelEngineServerApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

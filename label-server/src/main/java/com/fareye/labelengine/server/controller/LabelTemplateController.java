@@ -9,12 +9,16 @@ import com.fareye.labelengine.server.dto.LabelTemplateResponseDto;
 import com.fareye.labelengine.server.dto.LabelTemplateStatusRequestDto;
 import com.fareye.labelengine.server.dto.PartyMasterDto;
 import com.fareye.labelengine.server.dto.ResponseDto;
+import com.fareye.labelengine.server.dto.ZplPreviewRequest;
 import com.fareye.labelengine.server.persistence.LabelTemplateEntity;
 import com.fareye.labelengine.server.service.LabelTemplateService;
+import com.fareye.labelengine.server.service.ZplPreviewService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +39,11 @@ public class LabelTemplateController {
     private static final String STATUS_FAILED = "Failed";
 
     private final LabelTemplateService service;
+    private final ZplPreviewService zplPreviewService;
 
-    public LabelTemplateController(LabelTemplateService service) {
+    public LabelTemplateController(LabelTemplateService service, ZplPreviewService zplPreviewService) {
         this.service = service;
+        this.zplPreviewService = zplPreviewService;
     }
 
     @GetMapping("/get/labelTemplate")
@@ -125,6 +131,24 @@ public class LabelTemplateController {
             return ResponseEntity.ok(new ResponseDto("Label Template not found", STATUS_FAILED, HttpStatus.NOT_FOUND.toString(), null));
         }
         return ResponseEntity.ok(new ResponseDto("Successfully deleted", STATUS_SUCCESS, HttpStatus.OK.toString(), null));
+    }
+
+    /**
+     * Generate a preview of a ZPL label using the Labelary API.
+     * 
+     * @param templateId the ID of the label template
+     * @param request optional overrides for DPMM, width, and height
+     * @return binary response containing the rendered label (PNG or PDF)
+     */
+    @PostMapping("/preview/labelTemplate/{id}")
+    public ResponseEntity<byte[]> previewLabelTemplate(
+            @PathVariable("id") Long templateId,
+            @RequestBody(required = false) ZplPreviewRequest request) {
+        byte[] previewImage = zplPreviewService.generatePreview(templateId, request);
+        
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(previewImage);
     }
 
     @PostMapping("/save/mapping/labelTemplateParty")
