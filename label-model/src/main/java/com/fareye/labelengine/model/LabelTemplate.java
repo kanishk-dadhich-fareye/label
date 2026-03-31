@@ -28,4 +28,5 @@ public class LabelTemplate {
     private Integer zplDpmm;
     private Double zplWidth;
     private Double zplHeight;
+    private Integer printerDpi;
 }

@@ -1,6 +1,6 @@
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-html";
 import 'ace-builds/src-noconflict/snippets/html';
@@ -52,6 +52,10 @@ var HtmlEditor = _ref => {
   var [ispublishButtonEnabled, setIspublishButtonEnabled] = useState(false);
   var [isDataChanges, setIsDataChanges] = useState(false);
   var [showHelpModal, setShowHelpModal] = useState(false);
+  var [zplPreviewError, setZplPreviewError] = useState("");
+  var [zplPreviewGenerated, setZplPreviewGenerated] = useState(false);
+  var [zplPreviewImageUrl, setZplPreviewImageUrl] = useState("");
+  var canvasRef = useRef(null);
   var labelFormat = toUpper(showEditor == null ? void 0 : showEditor[DATA_INDEX.LABEL_FORMAT]) || 'PDF';
   var editorMode = labelFormat === 'ZPL' ? 'text' : 'html';
   var canRenderHtml = labelFormat !== 'ZPL' && isProbablyHtml(srcDoc);
@@ -62,6 +66,14 @@ var HtmlEditor = _ref => {
     return () => clearTimeout(timerId);
   }, [htmlContent]);
   useEffect(() => {
+    if (zplPreviewImageUrl) {
+      return function () {
+        URL.revokeObjectURL(zplPreviewImageUrl);
+      };
+    }
+    return undefined;
+  }, [zplPreviewImageUrl]);
+  useEffect(() => {
     if (showEditor.operationType === OPERATIONS.EDIT) {
       setHtmlContent(showEditor.script ? showEditor.script : " ");
       if (showEditor[DATA_INDEX.TEMPLATE_STATUS] === STATUS.INPROGRESS) {
@@ -70,6 +82,106 @@ var HtmlEditor = _ref => {
       setSrcDoc(showEditor.script);
     }
   }, [showEditor]);
+  var drawZplPreview = function drawZplPreview(zplCode) {
+    var canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+    var ctx = canvas.getContext('2d');
+    if (!ctx) {
+      return;
+    }
+
+    var width = canvas.width;
+    var height = canvas.height;
+
+    // base background + border
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+    ctx.strokeStyle = '#999';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(0.5, 0.5, width - 1, height - 1);
+
+    // Simulated ZPL content & simple vector rendering
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText('ZPL Preview (simulated)', 10, 20);
+
+    ctx.font = '10px monospace';
+    var lines = zplCode.split(/\r?\n/).slice(0, 14);
+    lines.forEach(function (line, idx) {
+      ctx.fillText(line.substring(0, 70), 10, 40 + idx * 14);
+    });
+
+    // add simulated QR-style block based on code hash
+    var hash = 0;
+    for (var i = 0; i < zplCode.length; i += 1) {
+      hash = (hash * 31 + zplCode.charCodeAt(i)) % 1069;
+    }
+    var blockSize = 8;
+    var startX = width - 150;
+    var startY = 35;
+    for (var row = 0; row < 10; row += 1) {
+      for (var col = 0; col < 10; col += 1) {
+        var value = ((hash + row * 31 + col * 17) % 2) === 0;
+        ctx.fillStyle = value ? '#333' : '#fff';
+        ctx.fillRect(startX + col * blockSize, startY + row * blockSize, blockSize, blockSize);
+      }
+    }
+    ctx.strokeStyle = '#000';
+    ctx.strokeRect(startX - 1, startY - 1, blockSize * 10 + 2, blockSize * 10 + 2);
+  };
+
+  var onPreviewZpl = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator(function* () {
+      if (labelFormat !== 'ZPL') {
+        setZplPreviewError('Preview works only for ZPL templates.');
+        setZplPreviewGenerated(false);
+        return;
+      }
+      if (!isProbablyZpl(htmlContent)) {
+        setZplPreviewError('Invalid ZPL: must start with ^XA and end with ^XZ.');
+        setZplPreviewGenerated(false);
+        return;
+      }
+      setZplPreviewError('');
+
+      try {
+        var response = yield fetch('/app/rest/label_generation/preview', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            zpl: htmlContent
+          })
+        });
+
+        if (!response.ok) {
+          var payload = yield response.json();
+          setZplPreviewError(payload == null ? void 0 : payload.message || 'Failed to generate ZPL preview');
+          setZplPreviewGenerated(false);
+          return;
+        }
+
+        var blob = yield response.blob();
+        var url = URL.createObjectURL(blob);
+        setZplPreviewImageUrl(url);
+        setZplPreviewGenerated(true);
+      } catch (e) {
+        // fallback to client-side rendering if remote service fails
+        drawZplPreview(htmlContent);
+        setZplPreviewImageUrl('');
+        setZplPreviewGenerated(true);
+      }
+    });
+
+    return function onPreviewZpl() {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+
   var onSaveScript = () => {
     var templateScriptReqObj = {
       [DATA_INDEX.TEMPLATE_ID]: showEditor[DATA_INDEX.TEMPLATE_ID],
@@ -213,6 +325,8 @@ var HtmlEditor = _ref => {
     onChange: value => {
       setIsDataChanges(true);
       setHtmlContent(value);
+      setZplPreviewGenerated(false);
+      setZplPreviewError('');
     },
     style: {
       width: '95%',
@@ -248,7 +362,45 @@ var HtmlEditor = _ref => {
     className: "title fw400 fs12 lh18"
   }, labelFormat === 'ZPL' ? 'ZPL Preview' : containerConstants.formatString(containerConstants.HTML_PREVIEW)))), /*#__PURE__*/React.createElement("div", {
     className: "html-code-preview-container"
-  }, canRenderHtml ? /*#__PURE__*/React.createElement("iframe", {
+  }, labelFormat === 'ZPL' ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Button, {
+    size: "small",
+    className: "fw400 fs14 lh22 action-btn",
+    type: "default",
+    style: {
+      marginBottom: '10px'
+    },
+    onClick: onPreviewZpl
+  }, 'Preview'), zplPreviewError && /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: 'red',
+      marginBottom: '8px',
+      fontSize: '12px'
+    }
+  }, zplPreviewError), zplPreviewImageUrl ? /*#__PURE__*/React.createElement("img", {
+    src: zplPreviewImageUrl,
+    alt: "ZPL Preview",
+    style: {
+      width: '100%',
+      maxHeight: '500px',
+      border: '1px solid #d9d9d9'
+    }
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("canvas", {
+    ref: canvasRef,
+    width: 780,
+    height: 500,
+    style: {
+      width: '100%',
+      height: '500px',
+      border: '1px solid #d9d9d9',
+      display: zplPreviewGenerated ? 'block' : 'none'
+    }
+  }), !zplPreviewGenerated && !zplPreviewError && /*#__PURE__*/React.createElement("div", {
+    className: "fw400 fs12 lh18",
+    style: {
+      padding: '12px',
+      color: '#727272'
+    }
+  }, 'Click Preview to generate ZPL preview.'))) : canRenderHtml ? /*#__PURE__*/React.createElement("iframe", {
     srcDoc: srcDoc,
     width: '100%',
     height: '486px',
@@ -260,7 +412,7 @@ var HtmlEditor = _ref => {
       padding: '12px',
       color: '#727272'
     }
-  }, labelFormat === 'ZPL' ? 'ZPL preview is not available.' : 'Enter valid HTML to preview.')))))));
+  }, 'Enter valid HTML to preview.'))))));
 };
 export default HtmlEditor;
 //# sourceMappingURL=HtmlEditor.js.map

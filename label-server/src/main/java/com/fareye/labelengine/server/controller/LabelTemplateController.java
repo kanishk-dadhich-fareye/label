@@ -72,11 +72,19 @@ public class LabelTemplateController {
                 return ResponseEntity.ok(new ResponseDto("Label Template code already exists", STATUS_FAILED,
                         HttpStatus.FORBIDDEN.toString(), null));
             }
+            if (request.getPrinterDpi() != null && request.getPrinterDpi() <= 0) {
+                return ResponseEntity.ok(new ResponseDto("Printer DPI must be a positive integer", STATUS_FAILED,
+                        HttpStatus.BAD_REQUEST.toString(), null));
+            }
             LabelTemplateEntity record = service.createTemplate(request);
             LabelTemplateResponseDto dto = service.toResponseDto(record);
             return ResponseEntity.ok(new ResponseDto("Successfully created", STATUS_SUCCESS, HttpStatus.OK.toString(), dto));
         }
 
+        if (request.getPrinterDpi() != null && request.getPrinterDpi() <= 0) {
+            return ResponseEntity.ok(new ResponseDto("Printer DPI must be a positive integer", STATUS_FAILED,
+                    HttpStatus.BAD_REQUEST.toString(), null));
+        }
         LabelTemplateEntity updated = service.updateTemplate(request);
         if (updated == null) {
             return ResponseEntity.ok(new ResponseDto("Label Template not found", STATUS_FAILED,

@@ -10,6 +10,12 @@ public class LabelRenderRequest {
     private String format;
     private Map<String, Object> data;
     private Boolean wrapDataTypes;
+    private String labelType;
+    private String partyCode;
+    private String serviceType;
+    private String hubCode;
+    private String businessUnit;
+    private Integer printerResolution;
 
     public LabelRenderRequest() {
     }
@@ -68,5 +74,53 @@ public class LabelRenderRequest {
 
     public void setWrapDataTypes(Boolean wrapDataTypes) {
         this.wrapDataTypes = wrapDataTypes;
+    }
+
+    public String getLabelType() {
+        return labelType;
+    }
+
+    public void setLabelType(String labelType) {
+        this.labelType = labelType;
+    }
+
+    public String getPartyCode() {
+        return partyCode;
+    }
+
+    public void setPartyCode(String partyCode) {
+        this.partyCode = partyCode;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getHubCode() {
+        return hubCode;
+    }
+
+    public void setHubCode(String hubCode) {
+        this.hubCode = hubCode;
+    }
+
+    public String getBusinessUnit() {
+        return businessUnit;
+    }
+
+    public void setBusinessUnit(String businessUnit) {
+        this.businessUnit = businessUnit;
+    }
+
+    public Integer getPrinterResolution() {
+        return printerResolution;
+    }
+
+    public void setPrinterResolution(Integer printerResolution) {
+        this.printerResolution = printerResolution;
     }
 }

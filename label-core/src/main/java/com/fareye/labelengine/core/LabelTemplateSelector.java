@@ -16,6 +16,7 @@ public class LabelTemplateSelector {
             String serviceType,
             String hubCode,
             String businessUnit,
+            Integer printerDpi,
             LabelFormat requestedFormat,
             Map<LabelTypeEnum, Map<String, List<LabelTemplate>>> labelTemplateEntityMap
     ) {
@@ -57,31 +58,31 @@ public class LabelTemplateSelector {
             }
 
             if (requestedFormat == null) {
-                LabelTemplate pdfTemplate = selectByPriority(pdfLabelTemplateList, serviceType, hubCode, businessUnit);
+                LabelTemplate pdfTemplate = selectByPriority(pdfLabelTemplateList, serviceType, hubCode, businessUnit, printerDpi);
                 if (pdfTemplate != null) {
                     return pdfTemplate;
                 }
-                return selectByPriority(zplLabelTemplateList, serviceType, hubCode, businessUnit);
+                return selectByPriority(zplLabelTemplateList, serviceType, hubCode, businessUnit, printerDpi);
             }
 
             if (LabelFormat.PDF.equals(requestedFormat)) {
-                return selectByPriority(pdfLabelTemplateList, serviceType, hubCode, businessUnit);
+                return selectByPriority(pdfLabelTemplateList, serviceType, hubCode, businessUnit, printerDpi);
             }
 
-            return selectByPriority(zplLabelTemplateList, serviceType, hubCode, businessUnit);
+            return selectByPriority(zplLabelTemplateList, serviceType, hubCode, businessUnit, printerDpi);
         }
 
         return null;
     }
 
-    private LabelTemplate selectByPriority(List<LabelTemplate> labelTemplateList, String serviceType, String hubCode, String businessUnit) {
+    private LabelTemplate selectByPriority(List<LabelTemplate> labelTemplateList, String serviceType, String hubCode, String businessUnit, Integer printerDpi) {
         if (labelTemplateList == null || labelTemplateList.isEmpty()) {
             return null;
         }
         LabelTemplate highestPriorityTemplate = null;
         int highestPriority = Integer.MAX_VALUE;
         for (LabelTemplate labelTemplate : labelTemplateList) {
-            int priority = calculatePriority(labelTemplate, serviceType, hubCode, businessUnit);
+            int priority = calculatePriority(labelTemplate, serviceType, hubCode, businessUnit, printerDpi);
             if (priority < highestPriority) {
                 highestPriority = priority;
                 highestPriorityTemplate = labelTemplate;
@@ -90,38 +91,64 @@ public class LabelTemplateSelector {
         return highestPriorityTemplate;
     }
 
-    private int calculatePriority(LabelTemplate template, String serviceType, String hubCode, String businessUnit) {
+    private int calculatePriority(LabelTemplate template, String serviceType, String hubCode, String businessUnit, Integer printerDpi) {
         boolean hasServiceType = hasText(template.getServiceType());
         boolean hasHubCode = hasText(template.getHubCode());
         boolean hasBusinessUnit = hasText(template.getBusinessUnit());
+        boolean hasPrinterDpi = template.getPrinterDpi() != null;
 
         boolean matchesServiceType = hasServiceType && template.getServiceType().equalsIgnoreCase(serviceType);
         boolean matchesHubCode = hasHubCode && template.getHubCode().equalsIgnoreCase(hubCode);
         boolean matchesBusinessUnit = hasBusinessUnit && template.getBusinessUnit().equalsIgnoreCase(businessUnit);
+        boolean matchesPrinterDpi = hasPrinterDpi && template.getPrinterDpi().equals(printerDpi);
 
-        if (matchesServiceType && matchesHubCode && matchesBusinessUnit) {
+        if (matchesServiceType && matchesHubCode && matchesBusinessUnit && matchesPrinterDpi) {
             return 1;
         }
-        if (matchesServiceType && matchesBusinessUnit && !hasHubCode) {
+        if (matchesServiceType && matchesHubCode && matchesBusinessUnit && !hasPrinterDpi) {
             return 2;
         }
-        if (matchesServiceType && matchesHubCode && !hasBusinessUnit) {
+        if (matchesServiceType && matchesHubCode && matchesPrinterDpi && !hasBusinessUnit) {
             return 3;
         }
-        if (matchesHubCode && matchesBusinessUnit && !hasServiceType) {
+        if (matchesServiceType && matchesBusinessUnit && matchesPrinterDpi && !hasHubCode) {
             return 4;
         }
-        if (matchesServiceType && !hasHubCode && !hasBusinessUnit) {
+        if (matchesHubCode && matchesBusinessUnit && matchesPrinterDpi && !hasServiceType) {
             return 5;
         }
-        if (matchesHubCode && !hasServiceType && !hasBusinessUnit) {
+        if (matchesServiceType && matchesHubCode && !hasBusinessUnit && !hasPrinterDpi) {
             return 6;
         }
-        if (matchesBusinessUnit && !hasServiceType && !hasHubCode) {
+        if (matchesServiceType && matchesBusinessUnit && !hasHubCode && !hasPrinterDpi) {
             return 7;
         }
-        if (!hasServiceType && !hasHubCode && !hasBusinessUnit) {
+        if (matchesHubCode && matchesBusinessUnit && !hasServiceType && !hasPrinterDpi) {
             return 8;
+        }
+        if (matchesServiceType && matchesPrinterDpi && !hasHubCode && !hasBusinessUnit) {
+            return 9;
+        }
+        if (matchesHubCode && matchesPrinterDpi && !hasServiceType && !hasBusinessUnit) {
+            return 10;
+        }
+        if (matchesBusinessUnit && matchesPrinterDpi && !hasServiceType && !hasHubCode) {
+            return 11;
+        }
+        if (matchesServiceType && !hasHubCode && !hasBusinessUnit && !hasPrinterDpi) {
+            return 12;
+        }
+        if (matchesHubCode && !hasServiceType && !hasBusinessUnit && !hasPrinterDpi) {
+            return 13;
+        }
+        if (matchesBusinessUnit && !hasServiceType && !hasHubCode && !hasPrinterDpi) {
+            return 14;
+        }
+        if (matchesPrinterDpi && !hasServiceType && !hasHubCode && !hasBusinessUnit) {
+            return 15;
+        }
+        if (!hasServiceType && !hasHubCode && !hasBusinessUnit && !hasPrinterDpi) {
+            return 16;
         }
 
         return Integer.MAX_VALUE;

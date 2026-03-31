@@ -173,6 +173,9 @@ public class LabelTemplateRenderer {
         }
     }
 
+    private static final float MAX_WIDTH_MM = 594.0f; // A1 width
+    private static final float MAX_HEIGHT_MM = 841.0f; // A1 height
+
     private List<Float> setPageWidthHeight(String pageSize) {
         float width = 8.27f;
         float height = 11.69f;
@@ -186,10 +189,32 @@ public class LabelTemplateRenderer {
 
         if (pageSize.contains(LabelPdfConstants.LABEL_TEMPLATE_PAGE_SIZE_CUSTOM)) {
             List<String> formatWidthHeight = Arrays.asList(pageSize.split("@", 5));
-            long customWidthInMm = Long.parseLong(formatWidthHeight.get(1));
-            long customHeightInMm = Long.parseLong(formatWidthHeight.get(2));
-            width = convertMmToInches(customWidthInMm);
-            height = convertMmToInches(customHeightInMm);
+            if (formatWidthHeight.size() < 3) {
+                // If malformed, fall back to default
+                widthAndHeight.add(width);
+                widthAndHeight.add(height);
+                return widthAndHeight;
+            }
+            try {
+                double customWidthInMm = Double.parseDouble(formatWidthHeight.get(1));
+                double customHeightInMm = Double.parseDouble(formatWidthHeight.get(2));
+                // Check if the custom size exceeds the maximum allowed size (A1: 594mm x 841mm in either orientation)
+                if (!((customWidthInMm <= MAX_WIDTH_MM && customHeightInMm <= MAX_HEIGHT_MM) ||
+                      (customWidthInMm <= MAX_HEIGHT_MM && customHeightInMm <= MAX_WIDTH_MM))) {
+                    throw new IllegalArgumentException(
+                        String.format("Custom label size exceeds maximum allowed size of %dmm x %dmm (A1). " +
+                                      "Provided: %.2fmm x %.2fmm", 
+                                      (int)MAX_WIDTH_MM, (int)MAX_HEIGHT_MM, 
+                                      customWidthInMm, customHeightInMm));
+                }
+                width = convertMmToInches(customWidthInMm);
+                height = convertMmToInches(customHeightInMm);
+            } catch (NumberFormatException e) {
+                // If parsing fails, fall back to default
+                widthAndHeight.add(width);
+                widthAndHeight.add(height);
+                return widthAndHeight;
+            }
         } else if (LabelPdfConstants.LABEL_TEMPLATE_PAGE_SIZE_4x6.equalsIgnoreCase(pageSize)) {
             width = 4f;
             height = 6f;
@@ -218,6 +243,11 @@ public class LabelTemplateRenderer {
                 || LabelPdfConstants.LABEL_TEMPLATE_PAGE_SIZE_A7.equalsIgnoreCase(pageSize)) {
             width = 4.134f;
             height = 2.913f;
+        } else {
+            // If pageSize doesn't match any known format, use default
+            widthAndHeight.add(width);
+            widthAndHeight.add(height);
+            return widthAndHeight;
         }
 
         widthAndHeight.add(width);
@@ -225,7 +255,7 @@ public class LabelTemplateRenderer {
         return widthAndHeight;
     }
 
-    private float convertMmToInches(long mm) {
+    private float convertMmToInches(double mm) {
         return (float) (mm / 25.4);
     }
 }

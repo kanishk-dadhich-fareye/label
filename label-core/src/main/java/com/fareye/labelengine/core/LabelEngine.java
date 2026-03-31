@@ -24,9 +24,10 @@ public class LabelEngine {
                                         String serviceType,
                                         String hubCode,
                                         String businessUnit,
+                                        Integer printerDpi,
                                         LabelFormat requestedFormat,
                                         Map<LabelTypeEnum, Map<String, List<LabelTemplate>>> templateMap) {
-        return selector.select(labelType, partyCode, serviceType, hubCode, businessUnit, requestedFormat, templateMap);
+        return selector.select(labelType, partyCode, serviceType, hubCode, businessUnit, printerDpi, requestedFormat, templateMap);
     }
 
     public Path render(LabelTemplate template,
