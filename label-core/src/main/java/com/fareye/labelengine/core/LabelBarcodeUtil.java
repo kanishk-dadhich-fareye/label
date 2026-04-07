@@ -36,19 +36,19 @@ public class LabelBarcodeUtil {
             return "";
         }
         try {
-            return createBarCode(value, type, "UTF-8", 200, 200, tempFileName, true);
+            return createBarCode(value, type, "UTF-8", 0, 0, tempFileName, true);
         } catch (Exception ex) {
             throw new RuntimeException("Failed to generate barcode: " + ex.getMessage(), ex);
         }
     }
 
     public static String createBarCode(String barcodeData,
-                                       String type,
-                                       String charset,
-                                       int height,
-                                       int width,
-                                       String tempFileName,
-                                       boolean isImagePath) throws WriterException, IOException {
+                                        String type,
+                                        String charset,
+                                        int height,
+                                        int width,
+                                        String tempFileName,
+                                        boolean isImagePath) throws WriterException, IOException {
         String dir = TMP_DIR + tempFileName;
         new File(dir).mkdirs();
         String filePath = dir + "/" + type + Calendar.getInstance().getTimeInMillis() + UUID.randomUUID() + ".png";
@@ -76,16 +76,35 @@ public class LabelBarcodeUtil {
             return createGS1Code(barcodeData, type, filePath, isImagePath);
         }
 
+        // For QR codes, use improved settings
         Map<EncodeHintType, Object> hintMap = new HashMap<>();
-        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-        hintMap.put(EncodeHintType.MARGIN, 0);
+        if (barcodeFormat == BarcodeFormat.QR_CODE) {
+            // Default to high error correction and proper quiet zone for printing
+            hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+            hintMap.put(EncodeHintType.MARGIN, 4); // Minimum 4 modules quiet zone
+        } else {
+            // For other barcodes, use basic settings (can be enhanced later)
+            hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            hintMap.put(EncodeHintType.MARGIN, 0);
+        }
+
+        // Handle dynamic sizing - if width/height are 0, calculate based on content
+        int finalWidth = width;
+        int finalHeight = height;
+        if (barcodeFormat == BarcodeFormat.QR_CODE && (width <= 0 || height <= 0)) {
+            // For QR codes with unspecified dimensions, use a reasonable printable size
+            finalWidth = Math.max(width > 0 ? width : 300, 300); // Minimum 300px for print
+            finalHeight = Math.max(height > 0 ? height : 300, 300);
+            // Ensure square aspect ratio for QR codes
+            finalWidth = finalHeight = Math.max(finalWidth, finalHeight);
+        }
 
         BitMatrix matrix;
         if (type.toLowerCase(Locale.ENGLISH).contains("without_charset")) {
-            matrix = generateBitMatrixWithoutCharset(barcodeData, hintMap, height, width, barcodeFormat);
+            matrix = generateBitMatrixWithoutCharset(barcodeData, hintMap, finalHeight, finalWidth, barcodeFormat);
         } else {
             hintMap.put(EncodeHintType.CHARACTER_SET, charset);
-            matrix = generateBitMatrixWithCharset(barcodeData, charset, hintMap, height, width, barcodeFormat);
+            matrix = generateBitMatrixWithCharset(barcodeData, charset, hintMap, finalHeight, finalWidth, barcodeFormat);
         }
 
         MatrixToImageWriter.writeToFile(matrix, filePath.substring(filePath.lastIndexOf('.') + 1), new File(filePath));

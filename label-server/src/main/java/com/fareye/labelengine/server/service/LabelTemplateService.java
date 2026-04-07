@@ -1,5 +1,6 @@
 package com.fareye.labelengine.server.service;
 
+import com.fareye.labelengine.constants.LabelPdfConstants;
 import com.fareye.labelengine.enumerator.LabelFormat;
 import com.fareye.labelengine.enumerator.LabelTypeEnum;
 import com.fareye.labelengine.enumerator.TemplateStatus;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 public class LabelTemplateService {
 
     private static final String DEFAULT_PAGE_SIZE = "4x6";
+    private static final float MAX_WIDTH_MM = 594.0f; // A1 width
+    private static final float MAX_HEIGHT_MM = 841.0f; // A1 height
 
     private final LabelTemplateRepository repository;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -68,7 +71,8 @@ public class LabelTemplateService {
         LabelTemplateEntity entity = new LabelTemplateEntity();
         entity.setTemplateName(request.getTemplateName());
         entity.setTemplateCode(request.getTemplateCode());
-        entity.setPageSize(isBlank(request.getPageSize()) ? DEFAULT_PAGE_SIZE : request.getPageSize());
+        String pageSize = isBlank(request.getPageSize()) ? DEFAULT_PAGE_SIZE : request.getPageSize();
+        entity.setPageSize(validatePageSize(pageSize));
         entity.setStatus(TemplateStatus.DRAFT);
         entity.setLabelFormat(LabelFormat.PDF);
         applyOptionalFields(entity, request);
@@ -256,5 +260,47 @@ public class LabelTemplateService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    /**
+     * Validates page size, ensuring custom sizes don't exceed maximum allowed dimensions (A1: 594mm x 841mm).
+     * @param pageSize the page size string (e.g., "4x6", "custom@100@50")
+     * @return the validated page size string
+     * @throws IllegalArgumentException if custom size exceeds maximum allowed dimensions
+     */
+    private String validatePageSize(String pageSize) {
+        if (isBlank(pageSize)) {
+            return DEFAULT_PAGE_SIZE;
+        }
+
+        // Handle custom size format: "custom@<width_mm>@<height_mm>"
+        if (pageSize.startsWith(LabelPdfConstants.LABEL_TEMPLATE_PAGE_SIZE_CUSTOM)) {
+            String[] parts = pageSize.split("@");
+            if (parts.length >= 3) {
+                try {
+                    double widthMm = Double.parseDouble(parts[1]);
+                    double heightMm = Double.parseDouble(parts[2]);
+                    
+                    // Check if the custom size exceeds the maximum allowed size (A1: 594mm x 841mm in either orientation)
+                    if (!((widthMm <= MAX_WIDTH_MM && heightMm <= MAX_HEIGHT_MM) ||
+                          (widthMm <= MAX_HEIGHT_MM && heightMm <= MAX_WIDTH_MM))) {
+                        throw new IllegalArgumentException(
+                            String.format("Custom label size exceeds maximum allowed size of %dmm x %dmm (A1). " +
+                                          "Provided: %.2fmm x %.2fmm", 
+                                          (int)MAX_WIDTH_MM, (int)MAX_HEIGHT_MM, 
+                                          widthMm, heightMm));
+                    }
+                } catch (NumberFormatException e) {
+                    // If parsing fails, fall back to default size
+                    return DEFAULT_PAGE_SIZE;
+                }
+            }
+            // If format is incorrect, fall back to default size
+            if (parts.length < 3) {
+                return DEFAULT_PAGE_SIZE;
+            }
+        }
+        
+        return pageSize;
     }
 }
